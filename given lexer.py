@@ -46,9 +46,8 @@ class ClifLexer():
 		return t
 	
 	def t_CHAR(self, t):
-		r'\w'
-		#r'\W'
-		r'\[a-z?]+'
+
+		r'[\w?~!]'
 		return t
 	
 	
