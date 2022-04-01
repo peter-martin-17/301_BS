@@ -18,7 +18,7 @@ class ClifLexer():
 		'or': 'OR',
 		'iff': 'IFF',
 		'if': 'IF',
-		'not', 'NOT'
+		'not': 'NOT'
 	}
 
 	tokens = ['OPEN', 'CLOSE', 'QUOTEDSTRING', 'RESERVEDELEMENT','CHAR','DIGIT','NUMERAL','STRINGQUOTE','NAMEQUOTE','LEXICALTOKEN']
