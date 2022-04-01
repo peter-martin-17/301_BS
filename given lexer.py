@@ -18,7 +18,8 @@ class ClifLexer():
 		'or': 'OR'
 	}
 	reserved_char = {
-		'~','!','#','$','%','^','&','*','_','+','{','}','|',':','<','>','?','\'','-','=','[',']',';',',','.','/'
+		'~','!','#','$','%','^','&','*','_','+','{','}','|',':',
+		'<','>','?','\'','-','=','[',']',';',',','.','/'
 	}
 
 	tokens = ['OPEN', 'CLOSE', 'QUOTEDSTRING', 'RESERVEDELEMENT','CHAR','DIGIT','NUMERAL','STRINGQUOTE','NAMEQUOTE','LEXICALTOKEN']
@@ -46,12 +47,10 @@ class ClifLexer():
 	
 	def t_CHAR(self, t):
 		r'\w'
-		if t.value in self.reserved_char:
-			t.type = self.reserved_char[t.value]
-			#print("Boolean reserved word: " + t.value)
-			return t
-		else:
-			pass	
+		#r'\W'
+		r'\[a-z?]+'
+		return t
+	
 	
 	def t_RESERVEDELEMENT(self, t):
 		# here we use a regular expression to say what matches this particular token:
