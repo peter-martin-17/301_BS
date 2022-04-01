@@ -36,7 +36,11 @@ class ClifLexer():
 
 	t_OPEN= '\('
 	t_CLOSE= '\)'
-
+	
+	def t_DIGIT(self, t):
+		r'\d'
+		return t
+	
 	def t_RESERVEDELEMENT(self, t):
 		# here we use a regular expression to say what matches this particular token:
 		# any sequence of standard characters of length 1 or greater
