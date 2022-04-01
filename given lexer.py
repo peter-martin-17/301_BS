@@ -46,8 +46,8 @@ class ClifLexer():
 	
 	def t_CHAR(self, t):
 		r'\w'
-		if t.value in self.reserved_bool:
-			t.type = self.reserved_bool[t.value]
+		if t.value in self.reserved_char:
+			t.type = self.reserved_char[t.value]
 			#print("Boolean reserved word: " + t.value)
 			return t
 		else:
