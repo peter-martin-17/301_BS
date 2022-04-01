@@ -18,7 +18,7 @@ class ClifLexer():
 		'or': 'OR'
 	}
 
-	tokens = ['OPEN', 'CLOSE', 'QUOTEDSTRING', 'RESERVEDELEMENT']
+	tokens = ['OPEN', 'CLOSE', 'QUOTEDSTRING', 'RESERVEDELEMENT','CHAR','DIGIT','WHITE','NUMERAL','STRINGQUOTE','NAMEQUOTE','LEXICALTOKEN']
 
 	tokens += reserved_bool.values()
 
