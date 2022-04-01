@@ -17,10 +17,7 @@ class ClifLexer():
 		'and': 'AND',
 		'or': 'OR'
 	}
-	reserved_char = {
-		'~','!','#','$','%','^','&','*','_','+','{','}','|',':',
-		'<','>','?','\'','-','=','[',']',';',',','.','/'
-	}
+
 
 	tokens = ['OPEN', 'CLOSE', 'QUOTEDSTRING', 'RESERVEDELEMENT','CHAR','DIGIT','NUMERAL','STRINGQUOTE','NAMEQUOTE','LEXICALTOKEN']
 
@@ -47,7 +44,8 @@ class ClifLexer():
 	
 	def t_CHAR(self, t):
 
-		r'[\w?~!]'
+		r'[\w?~!#$%^&*_+{}|=:<>-\|,./\'\[\]\;]'
+		r'[\w]'
 		return t
 	
 	
