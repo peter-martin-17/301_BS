@@ -55,7 +55,7 @@ class ClifLexer():
 
 	def t_QUOTEDSTRING(self, t):
 		# This is not yet correct: you need to complete the lexing of quotedstring
-		r't_STRINGQUOTEt_CHAR|t_NAMEQUOTEt_STRINGQUOTE'
+		r't_STRINGQUOTE {t_CHAR|t_NAMEQUOTE} t_STRINGQUOTE'
 		return t
 
 	t_NAMEQUOTE = r'[\"]'
