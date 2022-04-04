@@ -38,8 +38,8 @@ class ClifLexer():
 	t_OPEN= '\('
 	t_CLOSE= '\)'
 	t_DIGIT = r'[\d]'
-	t_CHAR =  r'[\w?~!#$%^&*_+{}|=:<>\|,./\'\[\]\;\- and \w| t_DIGIT]'
-	t_NUMERAL = r'[t_DIGIT*]'
+	t_CHAR =  r'[\w?~!#$%^&*_+{}|=:<>\|,./\[\]\;\-|t_DIGIT]'
+	t_NUMERAL = r'[t_DIGIT]+'
 	t_NAMEQUOTE = r'[\"]'
 	t_STRINGQUOTE = R'[\']'
 	
@@ -57,7 +57,7 @@ class ClifLexer():
 
 	def t_QUOTEDSTRING(self, t):
 		# This is not yet correct: you need to complete the lexing of quotedstring
-		r't_STRINGQUOTE and t_CHAR | t_NAMEQUOTE and t_STRINGQUOTE'
+		r't_STRINGQUOTEt_CHAR|t_NAMEQUOTEt_STRINGQUOTE'
 		return t
 
 	def lex(self, input_string):
