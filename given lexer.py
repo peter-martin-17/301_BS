@@ -83,7 +83,8 @@ class ClifLexer():
 	def t_QUOTEDSTRING(self, t):
 		# This is not yet correct: you need to complete the lexing of quotedstring
 		#r'[t_STRINGQUOTE&t_CHAR|t_NAMEQUOTEt_STRINGQUOTE]'
-		r"\'\w+\'"
+		#r"\'\w+\'"
+		r"\'[\w?~!\#$%^&*_+{}|=:<>\|,./\[\]\;\-]+\' | \'[\"]+\'"  
 		return t
 
 	t_NAMEQUOTE = r'[\"]'
@@ -112,5 +113,9 @@ lex.lex(s)
 
 # the following is currently not working but should be accepted because ? is in the set char
 s = "('who' ('is' -'?') )"
+print('\nLexing '+s)
+lex.lex(s)
+
+s = "(and (('B' 'C') (or ('C' 'D'))) (or ('FuncB') ('Func' 100 'A') ('something')))"
 print('\nLexing '+s)
 lex.lex(s)
