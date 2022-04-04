@@ -64,10 +64,23 @@ class ClifLexer():
 		else:
 			pass
 
-	def t_QUOTEDSTRING(self, t):
-		# This is not yet correct: you need to complete the lexing of quotedstring
+	def t_STRINGQUOTE(self, t):
 		r'\''
 		return t
+
+	def t_NAMEQUOTE(self,t):
+		r'\"'
+		return t
+
+	'''def t_QUOTEDSTRING(self, t):
+		# This is not yet correct: you need to complete the lexing of quotedstring
+		#r '[\self.t_STRINGQUOTE + '(' + self.t_CHAR + '|' self.t_NAMEQUOTE + ')' + self.t_STRINGQUOTE]'
+
+		if (t.value[0] == "'" and t.value[t.value.len-1] == "'"):
+			return t
+
+		else:
+			pass'''
 
 	def lex(self, input_string):
 		self.lexer.input(input_string)
