@@ -38,7 +38,10 @@ class ClifLexer():
 	t_OPEN= '\('
 	t_CLOSE= '\)'
 	t_DIGIT = r'[\d]'
-	t_CHAR =  r'[\w?~!#$%^&*_+{}|=:<>\|,./\'\[\]\;\-]'
+	t_CHAR =  r'[\w?~!#$%^&*_+{}|=:<>\|,./\'\[\]\;\- and \w| t_DIGIT]'
+	t_NUMERAL = r'[t_DIGIT*]'
+	t_NAMEQUOTE = r'[\"]'
+	t_STRINGQUOTE = R'[\']'
 	
 	def t_RESERVEDELEMENT(self, t):
 		# here we use a regular expression to say what matches this particular token:
@@ -54,7 +57,7 @@ class ClifLexer():
 
 	def t_QUOTEDSTRING(self, t):
 		# This is not yet correct: you need to complete the lexing of quotedstring
-		r'\''
+		r't_STRINGQUOTE and t_CHAR | t_NAMEQUOTE and t_STRINGQUOTE'
 		return t
 
 	def lex(self, input_string):
