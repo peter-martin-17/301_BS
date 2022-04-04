@@ -1,4 +1,5 @@
 import ply.lex as lex
+import re
 
 class ClifLexer():
 
@@ -15,13 +16,26 @@ class ClifLexer():
 
 	reserved_bool = {
 		'and': 'AND',
-		'or': 'OR'
+		'or': 'OR',
+		'not': 'NOT'
+	}
+
+	reserved_if = {
+		'if': 'IF',
+		'iff': 'IFF'
+	}
+
+	reserved_comment = {
+		'cl:comment': 'CL:COMMENT'
 	}
 
 
 	tokens = ['OPEN', 'CLOSE', 'QUOTEDSTRING', 'RESERVEDELEMENT','CHAR','DIGIT','NUMERAL','STRINGQUOTE','NAMEQUOTE','LEXICALTOKEN']
 
 	tokens += reserved_bool.values()
+	tokens += reserved_if.values()
+	tokens += 'COMMENT'
+
 
 	t_ignore = '\t\r\n\f\v '
 
@@ -38,7 +52,9 @@ class ClifLexer():
 	t_OPEN= '\('
 	t_CLOSE= '\)'
 
-	t_NUMERAL = r'[t_DIGIT]+'
+	def t_NUMERAL(self, t):
+		r'\d+'
+		return t
 
 	
 	def t_RESERVEDELEMENT(self, t):
@@ -50,18 +66,30 @@ class ClifLexer():
 			t.type = self.reserved_bool[t.value]
 			#print("Boolean reserved word: " + t.value)
 			return t
+
+		elif t.value in self.reserved_if:
+			t.type = self.reserved_if[t.value]
+			#print("Boolean reserved word: " + t.value)
+			return t
+
+		elif t.value in self.reserved_comment:
+			t.type = 'COMMENT'
+			#print("Boolean reserved word: " + t.value)
+			return t
+
 		else:
 			pass
 
 	def t_QUOTEDSTRING(self, t):
 		# This is not yet correct: you need to complete the lexing of quotedstring
-		r'[t_STRINGQUOTE&t_CHAR|t_NAMEQUOTEt_STRINGQUOTE]'
+		#r'[t_STRINGQUOTE&t_CHAR|t_NAMEQUOTEt_STRINGQUOTE]'
+		r"\'\w+\'"
 		return t
 
 	t_NAMEQUOTE = r'[\"]'
 	t_STRINGQUOTE = r'[\']'
 	t_DIGIT = r'[\d]'
-	t_CHAR =  r'[\w?~!#$%^&*_+{}|=:<>\|,./\[\]\;\-|t_DIGIT]'
+	t_CHAR =  r'[\w?~!#$%^&*_+{}|=:<>\|,./\[\]\;\-]'
 
 
 	def lex(self, input_string):
