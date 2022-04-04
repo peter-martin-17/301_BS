@@ -15,7 +15,10 @@ class ClifLexer():
 
 	reserved_bool = {
 		'and': 'AND',
-		'or': 'OR'
+		'or': 'OR',
+		'if': 'IF',
+		'iff': 'IFF',
+		'not': 'NOT'
 	}
 
 
@@ -56,7 +59,7 @@ class ClifLexer():
 		r'\w+'
 		if t.value in self.reserved_bool:
 			t.type = self.reserved_bool[t.value]
-			#print("Boolean reserved word: " + t.value)
+			print("Boolean reserved word: " + t.value)
 			return t
 		else:
 			pass
@@ -80,7 +83,7 @@ s = "(and ('max' 1 2 15) (or  ('Func' 'D')))"
 print('Lexing '+s)
 lex.lex(s)
 
-s = "(and ('B' 'C') (or ('C' 'D'))))"
+s = "(not ('B' 'C') (if ('C' 'D'))))"
 print('\nLexing '+s)
 lex.lex(s)
 
