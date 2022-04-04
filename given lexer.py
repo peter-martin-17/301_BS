@@ -23,7 +23,7 @@ class ClifLexer():
 
 	tokens += reserved_bool.values()
 
-	t_ignore = '\t\r\n\f\v'
+	t_ignore = '\t\r\n\f\v '
 
 	def t_NEWLINE(self,t):
 		r'\n+'
@@ -37,11 +37,9 @@ class ClifLexer():
 
 	t_OPEN= '\('
 	t_CLOSE= '\)'
-	t_DIGIT = r'[\d]'
-	t_CHAR =  r'[\w?~!#$%^&*_+{}|=:<>\|,./\[\]\;\-|t_DIGIT]'
+
 	t_NUMERAL = r'[t_DIGIT]+'
-	t_NAMEQUOTE = r'[\"]'
-	t_STRINGQUOTE = R'[\']'
+
 	
 	def t_RESERVEDELEMENT(self, t):
 		# here we use a regular expression to say what matches this particular token:
@@ -59,6 +57,12 @@ class ClifLexer():
 		# This is not yet correct: you need to complete the lexing of quotedstring
 		r't_STRINGQUOTEt_CHAR|t_NAMEQUOTEt_STRINGQUOTE'
 		return t
+
+	t_NAMEQUOTE = r'[\"]'
+	t_STRINGQUOTE = R'[\']'
+	t_DIGIT = r'[\d]'
+	t_CHAR =  r'[\w?~!#$%^&*_+{}|=:<>\|,./\[\]\;\-|t_DIGIT]'
+
 
 	def lex(self, input_string):
 		self.lexer.input(input_string)
