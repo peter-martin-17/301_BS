@@ -30,7 +30,7 @@ class ClifLexer():
 	}
 
 
-	tokens = ['OPEN', 'CLOSE', 'QUOTEDSTRING', 'RESERVEDELEMENT','CHAR','DIGIT','NUMERAL','STRINGQUOTE','NAMEQUOTE','LEXICALTOKEN']
+	tokens = ['OPEN', 'CLOSE', 'QUOTEDSTRING', 'RESERVEDELEMENT', 'NUMERAL', 'LEXICALTOKEN']
 
 	tokens += reserved_bool.values()
 	tokens += reserved_if.values()
@@ -61,7 +61,7 @@ class ClifLexer():
 		# here we use a regular expression to say what matches this particular token:
 		# any sequence of standard characters of length 1 or greater
 		# but this does not yet cover all reservedelements
-		r'\w+'
+		r'[\w]+'
 		if t.value in self.reserved_bool:
 			t.type = self.reserved_bool[t.value]
 			#print("Boolean reserved word: " + t.value)
@@ -87,10 +87,10 @@ class ClifLexer():
 		r"\'[\w?~!\#$%^&*_+{}|=:<>\|,./\[\]\;\-]+\' | \'[\"]+\'"  
 		return t
 
-	t_NAMEQUOTE = r'[\"]'
+	'''t_NAMEQUOTE = r'[\"]'
 	t_STRINGQUOTE = r'[\']'
 	t_DIGIT = r'[\d]'
-	t_CHAR =  r'[\w?~!#$%^&*_+{}|=:<>\|,./\[\]\;\-]'
+	t_CHAR =  r'[\w?~!#$%^&*_+{}|=:<>\|,./\[\]\;\-]'''
 
 
 	def lex(self, input_string):
@@ -112,10 +112,10 @@ print('\nLexing '+s)
 lex.lex(s)
 
 # the following is currently not working but should be accepted because ? is in the set char
-s = "('who' ('is' -'?') )"
+s = "('who' ('is' '?') )"
 print('\nLexing '+s)
 lex.lex(s)
 
-s = "(and (('B' 'C') (or ('C' 'D'))) (or ('FuncB') ('Func' 100 'A') ('something')))"
+s = "(cl:comment (('B' 'C') (or ('C' 'D'))) (or ('FuncB') ('Func' 100 'A') ('something')))"
 print('\nLexing '+s)
 lex.lex(s)
