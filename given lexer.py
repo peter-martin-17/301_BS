@@ -30,11 +30,10 @@ class ClifLexer():
 	}
 
 
-	tokens = ['OPEN', 'CLOSE', 'QUOTEDSTRING', 'RESERVEDELEMENT', 'NUMERAL', 'LEXICALTOKEN']
+	tokens = ['OPEN', 'CLOSE', 'QUOTEDSTRING', 'RESERVEDELEMENT', 'NUMERAL', 'LEXICALTOKEN', 'COMMENT']
 
 	tokens += reserved_bool.values()
 	tokens += reserved_if.values()
-	tokens += 'COMMENT'
 
 
 	t_ignore = '\t\r\n\f\v '
@@ -61,7 +60,7 @@ class ClifLexer():
 		# here we use a regular expression to say what matches this particular token:
 		# any sequence of standard characters of length 1 or greater
 		# but this does not yet cover all reservedelements
-		r'[\w]+'
+		r'[\:\w]+'
 		if t.value in self.reserved_bool:
 			t.type = self.reserved_bool[t.value]
 			#print("Boolean reserved word: " + t.value)
