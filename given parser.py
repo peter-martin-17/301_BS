@@ -133,6 +133,9 @@ class ClifParser(object):
 
 		print("Number of distinct quoted strings: " + str(no_quotedstrings))
 
+	'''def p_interpretedname(self, p):
+		self.lexer.t_NUMERAL'''
+
 	def p_error(self, p):
 
 		if p is None:
