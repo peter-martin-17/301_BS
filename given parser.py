@@ -1,7 +1,8 @@
 import ply.lex as lex
 import ply.yacc as yacc
+import re
 
-class ClifLexer(object):
+class ClifLexer():
 
 	# CONSTRUCTOR
 	def __init__(self):
@@ -122,7 +123,18 @@ class ClifParser(object):
 
 	def p_sentence(self, p):
 		"""
-		sentence : OPEN AND QUOTEDSTRING QUOTEDSTRING CLOSE
+		sentence : atomsent
+				| boolsent
+		atomsent : OPEN predicate termseq CLOSE
+		boolsent :  OPEN AND sentence CLOSE
+				| OPEN OR sentence* CLOSE
+				|  OPEN IFF sentence sentence CLOSE 
+				|  OPEN IF sentence sentence CLOSE 
+				|  OPEN NOT sentence CLOSE 
+		termseq :  interpretedname 
+		predicate : interpretedname
+		interpretedname : NUMERAL 
+				| QUOTEDSTRING
 		"""
 		# note that the rule above is INCORRECT: it is just an example of how to specify a rule
 		print("Found a sentence: {} {} {} ".format(p[2], p[3], p[4]))
@@ -132,9 +144,6 @@ class ClifParser(object):
 			no_quotedstrings = 2
 
 		print("Number of distinct quoted strings: " + str(no_quotedstrings))
-
-	'''def p_interpretedname(self, p):
-		self.lexer.t_NUMERAL'''
 
 	def p_error(self, p):
 
@@ -157,10 +166,10 @@ class ClifParser(object):
 		self.parser.parse(input_string)
 
 # using only the lexer
-lexer = ClifLexer()
-s = "(and ('B' 'C') (or ('C' 'D'))))"
-print('\nLexing '+s)
-lexer.lex(s)
+#lexer = ClifLexer()
+#s = "(and ('B' 'C') (or ('C' 'D'))))"
+#print('\nLexing '+s)
+#lexer.lex(s)
 
 parser = ClifParser()
 s = "(and 'Func')"
@@ -180,8 +189,9 @@ parser.parse(s)
 
 # the following is currently not working but should be accepted because ? is in the set char
 parser = ClifParser()
-s = "('who' 'is' '?' )"
+s = "('who' ('is' '?') )"
 print('\nLexing '+s)
 parser.lexer.lex(s)
 print('\nParsing '+s)
 parser.parse(s)
+
