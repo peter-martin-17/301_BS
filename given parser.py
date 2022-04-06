@@ -125,16 +125,6 @@ class ClifParser(object):
 		"""
 		sentence : atomsent
 				| boolsent
-		atomsent : OPEN predicate termseq CLOSE
-		boolsent :  OPEN AND sentence CLOSE
-				| OPEN OR sentence* CLOSE
-				|  OPEN IFF sentence sentence CLOSE 
-				|  OPEN IF sentence sentence CLOSE 
-				|  OPEN NOT sentence CLOSE 
-		termseq :  interpretedname 
-		predicate : interpretedname
-		interpretedname : NUMERAL 
-				| QUOTEDSTRING
 		"""
 		# note that the rule above is INCORRECT: it is just an example of how to specify a rule
 		print("Found a sentence: {} {} {} ".format(p[2], p[3], p[4]))
@@ -145,6 +135,40 @@ class ClifParser(object):
 
 		print("Number of distinct quoted strings: " + str(no_quotedstrings))
 
+	def p_atomsent(self, p):
+		"""
+		atomsent : OPEN predicate termseq CLOSE
+		"""
+		p[0]= p[2]
+	def p_boolsent(self, p):
+		"""
+		boolsent :  OPEN AND sentence CLOSE
+				| OPEN OR sentence CLOSE
+				|  OPEN IFF sentence sentence CLOSE 
+				|  OPEN IF sentence sentence CLOSE 
+				|  OPEN NOT sentence CLOSE 
+		"""
+		p[0]=p[2]
+
+	def p_termseq(self, p):
+		"""
+		termseq :  interpretedname
+				| interpretedname termseq  
+		"""
+		p[0]=p[1]
+
+	def p_predicate(self, p):
+		"""
+		predicate : interpretedname
+		"""
+		p[0]=p[1]
+
+	def p_interpretedname(self, p):
+		"""
+		interpretedname : NUMERAL 
+				| QUOTEDSTRING
+		"""	
+		p[0]=p[1]
 	def p_error(self, p):
 
 		if p is None:
@@ -194,4 +218,3 @@ print('\nLexing '+s)
 parser.lexer.lex(s)
 print('\nParsing '+s)
 parser.parse(s)
-
