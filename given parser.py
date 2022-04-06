@@ -31,7 +31,7 @@ class ClifLexer():
 	}
 
 
-	tokens = ['OPEN', 'CLOSE', 'QUOTEDSTRING', 'RESERVEDELEMENT', 'NUMERAL', 'LEXICALTOKEN', 'COMMENT']
+	tokens = ['OPEN', 'CLOSE', 'QUOTEDSTRING', 'RESERVEDELEMENT', 'NUMERAL', 'COMMENT']
 
 	tokens += reserved_bool.values()
 	tokens += reserved_if.values()
@@ -139,36 +139,31 @@ class ClifParser(object):
 		"""
 		atomsent : OPEN predicate termseq CLOSE
 		"""
-		p[0]= p[2]
 	def p_boolsent(self, p):
 		"""
-		boolsent :  OPEN AND sentence CLOSE
-				| OPEN OR sentence CLOSE
+		boolsent :  OPEN AND starter CLOSE
+				| OPEN OR starter CLOSE
 				|  OPEN IFF sentence sentence CLOSE 
 				|  OPEN IF sentence sentence CLOSE 
 				|  OPEN NOT sentence CLOSE 
 		"""
-		p[0]=p[2]
 
 	def p_termseq(self, p):
 		"""
 		termseq :  interpretedname
 				| interpretedname termseq  
 		"""
-		p[0]=p[1]
 
 	def p_predicate(self, p):
 		"""
 		predicate : interpretedname
 		"""
-		p[0]=p[1]
 
 	def p_interpretedname(self, p):
 		"""
 		interpretedname : NUMERAL 
 				| QUOTEDSTRING
 		"""	
-		p[0]=p[1]
 	def p_error(self, p):
 
 		if p is None:
