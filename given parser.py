@@ -1,7 +1,7 @@
 import ply.lex as lex
 import ply.yacc as yacc
 import re
-import sys
+
 
 class ClifLexer():
 
@@ -57,7 +57,14 @@ class ClifLexer():
 		r'\d+'
 		return t
 
+	def t_QUOTEDSTRING(self, t):
+		# This is not yet correct: you need to complete the lexing of quotedstring
+		#r'[t_STRINGQUOTE&t_CHAR|t_NAMEQUOTEt_STRINGQUOTE]'
+		#r"\'\w+\'"
+		r"\'[\w?~!\#$%^&*_+{}|=:<>\|,./\[\]\;\-]+\' | \'[\"]+\'"  
+		return t
 	
+
 	def t_RESERVEDELEMENT(self, t):
 		# here we use a regular expression to say what matches this particular token:
 		# any sequence of standard characters of length 1 or greater
@@ -81,12 +88,6 @@ class ClifLexer():
 		else:
 			pass
 
-	def t_QUOTEDSTRING(self, t):
-		# This is not yet correct: you need to complete the lexing of quotedstring
-		#r'[t_STRINGQUOTE&t_CHAR|t_NAMEQUOTEt_STRINGQUOTE]'
-		#r"\'\w+\'"
-		r"\'[\w?~!\#$%^&*_+{}|=:<>\|,./\[\]\;\-]+\' | \'[\"]+\'"  
-		return t
 
 	'''t_NAMEQUOTE = r'[\"]'
 	t_STRINGQUOTE = r'[\']'
@@ -189,5 +190,7 @@ myFile = open("a3-valid-clif2-v2.txt",'r')
 #parser.parse(myFile.read())
 
 for line in myFile:
+	print("Parsing: "+ line)
 	parser.parse(line)
 		
+
