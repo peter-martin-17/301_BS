@@ -4,7 +4,8 @@ import re
 
 
 class ClifLexer():
-
+	ops_count=0
+	names_count=0
 	# CONSTRUCTOR
 	def __init__(self):
 		print('Lexer constructor called.')
@@ -44,6 +45,7 @@ class ClifLexer():
 		r'\n+'
 		t.lexer.lineno += len(t.value)
 
+
 	def t_error(self,t):
 		print("Lexing error: Unknown character \"{}\" at line {}".format(t.value[0], t.lexer.lineno))
 		t.lexer.skip(1)
@@ -61,7 +63,8 @@ class ClifLexer():
 		# This is not yet correct: you need to complete the lexing of quotedstring
 		#r'[t_STRINGQUOTE&t_CHAR|t_NAMEQUOTEt_STRINGQUOTE]'
 		#r"\'\w+\'"
-		r"\'[\w?~!\#$%^&*_+{}|=:<>\|,./\[\]\;\-]+\' | \'[\"]+\'"  
+		r"\'[\w?~!\#$%^&*_+{}|=:<>\|,./\[\]\;\-]+\' | \'[\"]+\'"
+		ClifLexer.names_count=ClifLexer.names_count+1
 		return t
 	
 
@@ -73,11 +76,13 @@ class ClifLexer():
 		if t.value in self.reserved_bool:
 			t.type = self.reserved_bool[t.value]
 			#print("Boolean reserved word: " + t.value)
+			ClifLexer.ops_count=ClifLexer.ops_count+1
 			return t
 
 		elif t.value in self.reserved_if:
 			t.type = self.reserved_if[t.value]
 			#print("Boolean reserved word: " + t.value)
+
 			return t
 
 		elif t.value in self.reserved_comment:
@@ -106,10 +111,11 @@ class ClifLexer():
 class ClifParser(object):
 
 	tokens = ClifLexer.tokens
-
+	ops_count=0
 	# CONSTRUCTOR
 	def __init__(self):
 		print('Parser constructor called.')
+		
 		self.lexer = ClifLexer()
 		self.parser = yacc.yacc(module=self)
 		tokens = ClifLexer.tokens
@@ -119,9 +125,9 @@ class ClifParser(object):
 		"""
 		starter : sentence
 				| sentence starter
-				|
 		"""
-		print("Starting the parsing process.")
+		#print("Starting the parsing process.")
+		
 		pass
 
 	def p_sentence(self, p):
@@ -132,22 +138,23 @@ class ClifParser(object):
 
 	def p_atomsent(self, p):
 		"""
-		atomsent : OPEN predicate termseq CLOSE
+		atomsent : OPEN termseq CLOSE
+				| OPEN predicate CLOSE
 		"""
 	def p_boolsent(self, p):
 		"""
-		boolsent : OPEN AND starter CLOSE
+		boolsent :  OPEN AND starter CLOSE
 				| OPEN OR starter CLOSE
-				| OPEN IFF sentence sentence CLOSE 
-				| OPEN IF sentence sentence CLOSE 
-				| OPEN NOT sentence CLOSE
+				|  OPEN IFF sentence sentence CLOSE 
+				|  OPEN IF sentence sentence CLOSE 
+				|  OPEN NOT sentence CLOSE 
 		"""
+		
 
 	def p_termseq(self, p):
 		"""
-		termseq : interpretedname
-				| interpretedname termseq
-				|  
+		termseq :  interpretedname
+				| interpretedname termseq  
 		"""
 
 	def p_predicate(self, p):
@@ -177,21 +184,21 @@ class ClifParser(object):
 	def parse(self, input_string):
 		# initialize the parser
 		#parser = yacc.yacc(module=self)
-
+	
 		self.parser.parse(input_string)
 
 
-
 myPars = ClifParser()
- 
+
 
 parser = myPars.parser
 
-myFile = open("a3-valid-clif1-v2.txt",'r')
+myFile = open("a3-valid-clif2-v2.txt",'r')
 #parser.parse(myFile.read())
 
 for line in myFile:
-	print("Parsing: "+ line)
 	parser.parse(line)
-		
+	print("Parsing:"+ line[:-1]+": ops="+str(ClifLexer.ops_count)+", names="+str(ClifLexer.names_count)+"\n")
+	ClifLexer.ops_count=0
+	ClifLexer.names_count=0
 
