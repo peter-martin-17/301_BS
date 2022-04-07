@@ -153,7 +153,6 @@ class ClifParser(object):
 	def p_predicate(self, p):
 		"""
 		predicate : interpretedname
-			| COMMENT
 		"""
 
 	def p_interpretedname(self, p):
@@ -188,7 +187,7 @@ myPars = ClifParser()
 
 parser = myPars.parser
 
-myFile = open("a3-valid-clif2-v2.txt",'r')
+myFile = open("a3-valid-clif1-v2.txt",'r')
 #parser.parse(myFile.read())
 
 for line in myFile:
