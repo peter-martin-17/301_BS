@@ -63,7 +63,7 @@ class ClifLexer():
 		# This is not yet correct: you need to complete the lexing of quotedstring
 		#r'[t_STRINGQUOTE&t_CHAR|t_NAMEQUOTEt_STRINGQUOTE]'
 		#r"\'\w+\'"
-		r"\'[\w?~!\#$%^&*_+{}|=:<>\|,./\[\]\;\-]+\' | \'[\"]+\'"
+		r"\'[\w?~!\#$%^&*_+{}|=:<>\|,./\[\]\;\-]+\' | \'[\"]+\' | \' \'\'"
 		ClifLexer.names_count=ClifLexer.names_count+1
 		return t
 	
@@ -134,6 +134,7 @@ class ClifParser(object):
 		"""
 		sentence : atomsent
 				| boolsent
+				| commentsent
 		"""
 
 	def p_atomsent(self, p):
@@ -150,6 +151,10 @@ class ClifParser(object):
 				|  OPEN NOT sentence CLOSE 
 		"""
 		
+	def p_commentsent(self, p):
+		"""
+		commentsent : OPEN COMMENT QUOTEDSTRING sentence CLOSE
+		"""
 
 	def p_termseq(self, p):
 		"""
@@ -201,4 +206,3 @@ for line in myFile:
 	print("Parsing:"+ line[:-1]+": ops="+str(ClifLexer.ops_count)+", names="+str(ClifLexer.names_count)+"\n")
 	ClifLexer.ops_count=0
 	ClifLexer.names_count=0
-
