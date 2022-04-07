@@ -119,6 +119,7 @@ class ClifParser(object):
 		"""
 		starter : sentence
 				| sentence starter
+				|
 		"""
 		print("Starting the parsing process.")
 		pass
@@ -131,8 +132,7 @@ class ClifParser(object):
 
 	def p_atomsent(self, p):
 		"""
-		atomsent : OPEN termseq CLOSE
-				| OPEN predicate CLOSE
+		atomsent : OPEN predicate termseq CLOSE
 		"""
 	def p_boolsent(self, p):
 		"""
@@ -146,7 +146,8 @@ class ClifParser(object):
 	def p_termseq(self, p):
 		"""
 		termseq :  interpretedname
-				| interpretedname termseq  
+				| interpretedname termseq
+				|  
 		"""
 
 	def p_predicate(self, p):
@@ -186,7 +187,7 @@ myPars = ClifParser()
 
 parser = myPars.parser
 
-myFile = open("a3-valid-clif2-v2.txt",'r')
+myFile = open("a3-valid-clif1-v2.txt",'r')
 #parser.parse(myFile.read())
 
 for line in myFile:
