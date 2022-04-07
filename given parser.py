@@ -111,12 +111,14 @@ class ClifParser(object):
 		print('Parser constructor called.')
 		self.lexer = ClifLexer()
 		self.parser = yacc.yacc(module=self)
+		tokens = ClifLexer.tokens
 
 
 	def p_starter(self, p):
 		"""
 		starter : sentence
 				| sentence starter
+
 		"""
 		print("Starting the parsing process.")
 		pass
@@ -126,18 +128,11 @@ class ClifParser(object):
 		sentence : atomsent
 				| boolsent
 		"""
-		# note that the rule above is INCORRECT: it is just an example of how to specify a rule
-		print("Found a sentence: {} {} {} ".format(p[2], p[3], p[4]))
-		if p[3] == p[4]:
-			no_quotedstrings = 1
-		else:
-			no_quotedstrings = 2
-
-		print("Number of distinct quoted strings: " + str(no_quotedstrings))
 
 	def p_atomsent(self, p):
 		"""
-		atomsent : OPEN predicate termseq CLOSE
+		atomsent : OPEN termseq CLOSE
+				| OPEN predicate CLOSE
 		"""
 	def p_boolsent(self, p):
 		"""
@@ -191,14 +186,14 @@ class ClifParser(object):
 #lexer.lex(s)
 
 parser = ClifParser()
-s = "(and 'Func')"
+s = "('FuncA' 'a' 100)"
 #s = "(and ('max' 1 2 15) (or  ('Func' 'D')))"
 print('\nLexing '+s)
 parser.lexer.lex(s)
 print('\nParsing '+s)
 parser.parse(s)
 
-parser = ClifParser()
+'''parser = ClifParser()
 s = "(or 'Func')"
 #s = "(and ('max' 1 2 15) (or  ('Func' 'D')))"
 print('\nLexing '+s)
@@ -212,4 +207,4 @@ s = "('who' ('is' '?') )"
 print('\nLexing '+s)
 parser.lexer.lex(s)
 print('\nParsing '+s)
-parser.parse(s)
+parser.parse(s)'''
