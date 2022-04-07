@@ -138,9 +138,9 @@ class ClifParser(object):
 		"""
 		boolsent :  OPEN AND starter CLOSE
 				| OPEN OR starter CLOSE
-				|  OPEN IFF sentence sentence CLOSE 
-				|  OPEN IF sentence sentence CLOSE 
-				|  OPEN NOT sentence CLOSE 
+				| OPEN IFF sentence sentence CLOSE 
+				| OPEN IF sentence sentence CLOSE 
+				| OPEN NOT sentence CLOSE
 		"""
 
 	def p_termseq(self, p):
@@ -153,6 +153,7 @@ class ClifParser(object):
 	def p_predicate(self, p):
 		"""
 		predicate : interpretedname
+				| COMMENT
 		"""
 
 	def p_interpretedname(self, p):
