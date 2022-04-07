@@ -1,6 +1,7 @@
 import ply.lex as lex
 import ply.yacc as yacc
 import re
+import sys
 
 class ClifLexer():
 
@@ -101,7 +102,6 @@ class ClifLexer():
 				break
 			print(tok)
 
-
 class ClifParser(object):
 
 	tokens = ClifLexer.tokens
@@ -118,7 +118,6 @@ class ClifParser(object):
 		"""
 		starter : sentence
 				| sentence starter
-
 		"""
 		print("Starting the parsing process.")
 		pass
@@ -179,32 +178,16 @@ class ClifParser(object):
 
 		self.parser.parse(input_string)
 
-# using only the lexer
-#lexer = ClifLexer()
-#s = "(and ('B' 'C') (or ('C' 'D'))))"
-#print('\nLexing '+s)
-#lexer.lex(s)
 
-parser = ClifParser()
-s = "('FuncA' 'a' 100)"
-#s = "(and ('max' 1 2 15) (or  ('Func' 'D')))"
-print('\nLexing '+s)
-parser.lexer.lex(s)
-print('\nParsing '+s)
-parser.parse(s)
 
-'''parser = ClifParser()
-s = "(or 'Func')"
-#s = "(and ('max' 1 2 15) (or  ('Func' 'D')))"
-print('\nLexing '+s)
-parser.lexer.lex(s)
-print('\nParsing '+s)
-parser.parse(s)
+myPars = ClifParser()
+ 
 
-# the following is currently not working but should be accepted because ? is in the set char
-parser = ClifParser()
-s = "('who' ('is' '?') )"
-print('\nLexing '+s)
-parser.lexer.lex(s)
-print('\nParsing '+s)
-parser.parse(s)'''
+parser = myPars.parser
+
+myFile = open("a3-valid-clif2-v2.txt",'r')
+#parser.parse(myFile.read())
+
+for line in myFile:
+	parser.parse(line)
+		
