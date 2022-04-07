@@ -170,7 +170,7 @@ class ClifParser(object):
 		# Reading the symbols from the Parser stack
 		stack = [symbol for symbol in self.parser.symstack][1:]
 
-		print("Parsing error; current stack: " + str(stack))
+		print("Parsing error;" + str(error_pos) + " current stack: " + str(stack))
 
 
 	def parse(self, input_string):
