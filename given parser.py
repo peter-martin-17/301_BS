@@ -2,7 +2,9 @@ import ply.lex as lex
 import ply.yacc as yacc
 import re
 
+#global variable that stores every distinct quoted string each line of the file
 pastQuotedStrings = list()
+numOfSentences = 0
 
 class ClifLexer():
 	ops_count=0
@@ -67,18 +69,54 @@ class ClifLexer():
 		#r"\'\w+\'"
 		r"\'[\w?~!\#$%^&*_+{}|=:\"<>\|,./\[\]\;\-]+\'"
 
+		#Casts 't' as a string and stores it in 'currentQuotedString'
+		currentQuotedString = str(t)
+
+		#This will store the quoted string
+		substring = ""
+
+		#This stores the first character after ',' in 'currentQuotedString' Example: LexToken(QUOTEDSTRING,<<<<HERE>>>>"'TODAY=03/26/22'",1,10) 
+		firstChar = ""
+
+		#Stores two possible firstChar depending on if the quoted string has a name quote or not
+		if (str(currentQuotedString[22]) == '\''):
+			firstChar = '\''
+		else:
+			firstChar = '"'
+
+		substring += currentQuotedString[22]
+		
+		for i in range(23, len(currentQuotedString)):
+
+			#Special cases for each quoted string
+			if (firstChar == '\'' and i > 23 and str(currentQuotedString[i]) == '\\'):
+				substring += '\\\'\''
+				break
+			
+			elif (firstChar == '"' and str(currentQuotedString[i]) == '"'):
+				substring += '"'
+				break
+			
+			#else just add to substring
+			else:
+				substring += currentQuotedString[i]
+
+		#if its the first quoted string lexed, just add it and don't check for distinctiveness
 		if (len(pastQuotedStrings) == 0):
-			pastQuotedStrings.append(t)
+			pastQuotedStrings.append(substring)
 			ClifLexer.names_count+=1
 
+		#Check if the new quoted string is equal to any past quoted strings
 		else:
 			isUnique = True
 			for names in pastQuotedStrings:
-				if (str(names) == str(t)):
+
+				if (str(names) == str(substring)):
 					isUnique = False
 			
+			#if the quoted string is distinct, the names_count is added and append the quoted string to distinct quoted strings list
 			if (isUnique):
-				pastQuotedStrings.append(t)
+				pastQuotedStrings.append(substring)
 				ClifLexer.names_count+=1
 
 		return t
@@ -159,6 +197,10 @@ class ClifParser(object):
 		atomsent : OPEN termseq CLOSE
 				| OPEN predicate CLOSE
 		"""
+		if(numOfSentences == 0):
+			print("Atomic: ", end=" ")
+			numOfSentences += 1
+
 	def p_boolsent(self, p):
 		"""
 		boolsent :  OPEN AND starter CLOSE
@@ -167,6 +209,9 @@ class ClifParser(object):
 				|  OPEN IF sentence sentence CLOSE 
 				|  OPEN NOT sentence CLOSE 
 		"""
+		if (numOfSentences == 0):
+			print("Boolean: ", end=" ")
+			numOfSentences += 1
 		
 	def p_commentsent(self, p):
 		"""
@@ -218,11 +263,14 @@ parser = myPars.parser
 
 myFile = open("a3-valid-clif1-v3.txt",'r')
 
+lineCount = 0
 for line in myFile:
 	parser.parse(line)
-	#print("Parsing:"+ line[:-1]+": ops="+str(ClifLexer.ops_count)+", names="+str(ClifLexer.names_count)+"\n")
-	print(pastQuotedStrings)
-	print("Parsing:"+ line[:-1]+": ops="+str(ClifLexer.ops_count)+", names="+str(len(pastQuotedStrings))+"\n")
+	print(line[:-1]+": ops="+str(ClifLexer.ops_count)+", names="+str(ClifLexer.names_count)+"\n")
 	ClifLexer.ops_count=0
 	ClifLexer.names_count=0
 	pastQuotedStrings.clear()
+	numOfSentences = 0
+	lineCount += 1
+
+print(str(lineCount)+ " sentences")
