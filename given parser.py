@@ -2,10 +2,12 @@ import ply.lex as lex
 import ply.yacc as yacc
 import re
 
+pastQuotedStrings = list()
 
 class ClifLexer():
 	ops_count=0
 	names_count=0
+
 	# CONSTRUCTOR
 	def __init__(self):
 		print('Lexer constructor called.')
@@ -63,8 +65,22 @@ class ClifLexer():
 		# This is not yet correct: you need to complete the lexing of quotedstring
 		#r'[t_STRINGQUOTE&t_CHAR|t_NAMEQUOTEt_STRINGQUOTE]'
 		#r"\'\w+\'"
-		r"\'[\w?~!\#$%^&*_+{}|=:<>\|,./\[\]\;\-]+\' | \'[\"]+\' | \' \'\'"
-		ClifLexer.names_count=ClifLexer.names_count+1
+		r"\'[\w?~!\#$%^&*_+{}|=:\"<>\|,./\[\]\;\-]+\'"
+
+		if (len(pastQuotedStrings) == 0):
+			pastQuotedStrings.append(t)
+			ClifLexer.names_count+=1
+
+		else:
+			isUnique = True
+			for names in pastQuotedStrings:
+				if (str(names) == str(t)):
+					isUnique = False
+			
+			if (isUnique):
+				pastQuotedStrings.append(t)
+				ClifLexer.names_count+=1
+
 		return t
 	
 
@@ -125,6 +141,7 @@ class ClifParser(object):
 		"""
 		starter : sentence
 				| sentence starter
+				|
 		"""
 		#print("Starting the parsing process.")
 		
@@ -159,7 +176,8 @@ class ClifParser(object):
 	def p_termseq(self, p):
 		"""
 		termseq :  interpretedname
-				| interpretedname termseq  
+				| interpretedname termseq
+				|
 		"""
 
 	def p_predicate(self, p):
@@ -198,11 +216,13 @@ myPars = ClifParser()
 
 parser = myPars.parser
 
-myFile = open("a3-valid-clif2-v2.txt",'r')
-#parser.parse(myFile.read())
+myFile = open("a3-valid-clif1-v3.txt",'r')
 
 for line in myFile:
 	parser.parse(line)
-	print("Parsing:"+ line[:-1]+": ops="+str(ClifLexer.ops_count)+", names="+str(ClifLexer.names_count)+"\n")
+	#print("Parsing:"+ line[:-1]+": ops="+str(ClifLexer.ops_count)+", names="+str(ClifLexer.names_count)+"\n")
+	print(pastQuotedStrings)
+	print("Parsing:"+ line[:-1]+": ops="+str(ClifLexer.ops_count)+", names="+str(len(pastQuotedStrings))+"\n")
 	ClifLexer.ops_count=0
 	ClifLexer.names_count=0
+	pastQuotedStrings.clear()
