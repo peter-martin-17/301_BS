@@ -197,9 +197,9 @@ class ClifParser(object):
 		atomsent : OPEN termseq CLOSE
 				| OPEN predicate CLOSE
 		"""
-		if(numOfSentences == 0):
-			print("Atomic: ", end=" ")
-			numOfSentences += 1
+		# if(numOfSentences == 0):
+		# 	print("Atomic: ", end=" ")
+		# 	numOfSentences += 1
 
 	def p_boolsent(self, p):
 		"""
@@ -209,9 +209,9 @@ class ClifParser(object):
 				|  OPEN IF sentence sentence CLOSE 
 				|  OPEN NOT sentence CLOSE 
 		"""
-		if (numOfSentences == 0):
-			print("Boolean: ", end=" ")
-			numOfSentences += 1
+		# if (numOfSentences == 0):
+		# 	print("Boolean: ", end=" ")
+		# 	numOfSentences += 1
 		
 	def p_commentsent(self, p):
 		"""
