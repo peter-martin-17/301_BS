@@ -4,7 +4,6 @@ import re
 
 #global variable that stores every distinct quoted string each line of the file
 pastQuotedStrings = list()
-numOfSentences = 0
 
 class ClifLexer():
 	ops_count=0
@@ -166,6 +165,7 @@ class ClifParser(object):
 
 	tokens = ClifLexer.tokens
 	ops_count=0
+	sentenceType = ""
 	# CONSTRUCTOR
 	def __init__(self):
 		print('Parser constructor called.')
@@ -197,9 +197,9 @@ class ClifParser(object):
 		atomsent : OPEN termseq CLOSE
 				| OPEN predicate CLOSE
 		"""
-		# if(numOfSentences == 0):
-		# 	print("Atomic: ", end=" ")
-		# 	numOfSentences += 1
+
+		ClifParser.sentenceType = "Atomic: "
+
 
 	def p_boolsent(self, p):
 		"""
@@ -209,9 +209,8 @@ class ClifParser(object):
 				|  OPEN IF sentence sentence CLOSE 
 				|  OPEN NOT sentence CLOSE 
 		"""
-		# if (numOfSentences == 0):
-		# 	print("Boolean: ", end=" ")
-		# 	numOfSentences += 1
+
+		ClifParser.sentenceType = "Boolean: "
 		
 	def p_commentsent(self, p):
 		"""
@@ -261,16 +260,16 @@ myPars = ClifParser()
 
 parser = myPars.parser
 
-myFile = open("a3-valid-clif1-v3.txt",'r')
+myFile = open("a3-valid-clif2-v3.txt",'r')
 
 lineCount = 0
 for line in myFile:
 	parser.parse(line)
-	print(line[:-1]+": ops="+str(ClifLexer.ops_count)+", names="+str(ClifLexer.names_count)+"\n")
+	print(ClifParser.sentenceType + line[:-1]+": ops="+str(ClifLexer.ops_count)+", names="+str(ClifLexer.names_count)+"\n")
 	ClifLexer.ops_count=0
 	ClifLexer.names_count=0
 	pastQuotedStrings.clear()
-	numOfSentences = 0
+	ClifParser.sentenceType = ""
 	lineCount += 1
 
 print(str(lineCount)+ " sentences")
