@@ -1,0 +1,8 @@
+(or ('1') (not ('0')))
+(not ('big word'))
+('3123123123')
+(iff (1) (1))
+(if ('no') ('yes') ('maybe') ('who'))
+(or (not ('idk'))
+(or (not ('TODAY=03/26/22')) (not ('TODAY=03/26/22')) (and ('FRIDAY' 13)))
+
