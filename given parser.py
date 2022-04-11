@@ -63,10 +63,10 @@ class ClifLexer():
 		return t
 
 	def t_QUOTEDSTRING(self, t):
-		# This is not yet correct: you need to complete the lexing of quotedstring
-		#r'[t_STRINGQUOTE&t_CHAR|t_NAMEQUOTEt_STRINGQUOTE]'
-		#r"\'\w+\'"
-		r"\'[\w?~!\#$%^&*_+{}|=:\"<>\|,./\[\]\;\-]+\'"
+		#Original
+		#r"\'[\w?~!\#$%^&*_+{}|=:\"<>\|,./\[\]\;\-]+\'"
+		#EC 
+		r"\'[\w?~!#$%^&*_+{}\=:<>\|,./\[\]\;\-\|\"\|\']+\'"
 
 		#Casts 't' as a string and stores it in 'currentQuotedString'
 		currentQuotedString = str(t)
