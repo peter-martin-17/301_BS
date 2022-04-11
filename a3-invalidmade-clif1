@@ -1,0 +1,6 @@
+(if (if (if (if ('Why')('Yes'))('No'))) (not ('when')))
+(iff('maybe') (not ('no')))
+(not(3 1 2 3))
+(not (not ( 'd:d:d:d' )) ('1'))
+'f'
+1
