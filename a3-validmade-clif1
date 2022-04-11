@@ -1,7 +1,7 @@
-(if (if (if (if ('Why'))))) (not ('when'))
-(iff('maybe'))
+(if (if (if (if ('Why')('Yes'))('No'))('Yes')) (not ('when')))
+(iff('maybe') (not ('no')))
 (not(3 1 2 3))
-(not (if (not ( 'd:d:d:d' ))))
+(not (if (not ( 'd:d:d:d' )) ('1')))
 ( 'f' )
 (1)
 
