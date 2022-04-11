@@ -1,6 +1,7 @@
 import ply.lex as lex
 import ply.yacc as yacc
 import re
+import argparse
 
 #global variable that stores every distinct quoted string each line of the file
 pastQuotedStrings = list()
@@ -66,7 +67,7 @@ class ClifLexer():
 		#Original
 		#r"\'[\w?~!\#$%^&*_+{}|=:\"<>\|,./\[\]\;\-]+\'"
 		#EC 
-		r"\'[\w?~!#$%^&*_+{}\=:<>\|,./\[\]\;\- \| \" \| \']*\'"
+		r"\'[\w?~!#$%^&*_+{}\=:<>\|,./\[\]\;\-\|\"\|\']+\'"
 
 		#Casts 't' as a string and stores it in 'currentQuotedString'
 		currentQuotedString = str(t)
@@ -254,22 +255,34 @@ class ClifParser(object):
 	
 		self.parser.parse(input_string)
 
+def main():
+	myPars = ClifParser()
 
-myPars = ClifParser()
+	takeIn = argparse.ArgumentParser(
+		description="my arg parser"
+	)
+
+	takeIn.add_argument('txtName', help="Text File Name")
+	takeIn.add_argument('parseOrLex', help="Parse or Lex")
+
+	args = takeIn.parse_args()
+	print(str(args[0]))
 
 
-parser = myPars.parser
+	parser = myPars.parser
 
-myFile = open("a3-valid-bonus-v4.txt",'r')
+	myFile = open("a3-valid-clif2-v3.txt",'r')
 
-lineCount = 0
-for line in myFile:
-	parser.parse(line)
-	print(ClifParser.sentenceType + line[:-1]+": ops="+str(ClifLexer.ops_count)+", names="+str(ClifLexer.names_count)+"\n")
-	ClifLexer.ops_count=0
-	ClifLexer.names_count=0
-	pastQuotedStrings.clear()
-	ClifParser.sentenceType = ""
-	lineCount += 1
+	lineCount = 0
+	for line in myFile:
+		parser.parse(line)
+		print(ClifParser.sentenceType + line[:-1]+": ops="+str(ClifLexer.ops_count)+", names="+str(ClifLexer.names_count)+"\n")
+		ClifLexer.ops_count=0
+		ClifLexer.names_count=0
+		pastQuotedStrings.clear()
+		ClifParser.sentenceType = ""
+		lineCount += 1
 
-print(str(lineCount)+ " sentences")
+	print(str(lineCount)+ " sentences")
+
+main()
