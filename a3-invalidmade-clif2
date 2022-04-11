@@ -1,0 +1,7 @@
+(or ('1') ('not' ('0')))
+(not ('big word')
+(3123123123')
+(iff '(1) (1))
+(if ('no') ('yes') ('maybe') ('who').)
+(or ('no't ('idk'))
+
