@@ -1,11 +1,14 @@
 import ply.lex as lex
 import re
 
+myFile = open("lexer_output.txt", 'w')
+
 class ClifLexer():
 
 	# CONSTRUCTOR
 	def __init__(self):
 		print('Lexer constructor called.')
+		myFile.write('Lexer constructor called.' + '\n')
 		self.lexer = lex.lex(module=self)
 		# start in the (standard) initial state
 		self.lexer.begin('INITIAL')
@@ -13,6 +16,7 @@ class ClifLexer():
 	# DESTRUCTOR
 	def __del__(self):
 		print('Lexer destructor called.')
+		#myFile.write('Lexer destructor called.' + '\n')
 
 	reserved_bool = {
 		'and': 'AND',
@@ -83,7 +87,8 @@ class ClifLexer():
 		# This is not yet correct: you need to complete the lexing of quotedstring
 		#r'[t_STRINGQUOTE&t_CHAR|t_NAMEQUOTEt_STRINGQUOTE]'
 		#r"\'\w+\'"
-		r"\'[\w?~!\#$%^&*_+{}|=:<>\|,./\[\]\;\-]+\' | \'[\"]+\'"  
+		#r"\'[\w?~!\#$%^&*_+{}|=:<>\|,./\[\]\;\-]+\' | \'[\"]+\'"
+		r"\'[\w?~!\#$%^&*_+{}|=:\"<>\|,./\[\]\;\-]+\'"
 		return t
 
 	'''t_NAMEQUOTE = r'[\"]'
@@ -99,22 +104,31 @@ class ClifLexer():
 			if not tok:
 				break
 			print(tok)
+			myFile.write(str(tok) + '\n')
+
 
 
 lex = ClifLexer()
-s = "(and ('max' 1 2 15) (or  ('Func' 'D')))"
-print('Lexing '+s)
+s = "(and ('B' 'C') (or ('C' 'D')) (or ('FuncB') ('Func' 100 'A') ('something')))"
+print('\n' + 'Lexing '+s)
+myFile.write('\n' + 'Lexing '+s + '\n')
 lex.lex(s)
 
 s = "(and ('B' 'C') (or ('C' 'D'))))"
-print('\nLexing '+s)
+print('Lexing '+s)
+myFile.write('\n' + 'Lexing '+s + '\n')
 lex.lex(s)
 
 # the following is currently not working but should be accepted because ? is in the set char
-s = "('who' ('is' '?') )"
-print('\nLexing '+s)
+s = "('who' 'is' '?')"
+print('Lexing '+s)
+myFile.write('\n' + 'Lexing '+s + '\n')
 lex.lex(s)
 
-s = "(cl:comment (('B' 'C') (or ('C' 'D'))) (or ('FuncB') ('Func' 100 'A') ('something')))"
-print('\nLexing '+s)
+s = "('A1:\"A_comment_inside\"' 'COMMENT:B100%')"
+print('Lexing '+s)
+myFile.write('\n' + 'Lexing '+s + '\n')
 lex.lex(s)
+
+myFile.write('\n' + 'Lexer destructor called.')
+myFile.close()
