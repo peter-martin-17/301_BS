@@ -66,7 +66,7 @@ class ClifLexer():
 		#Original
 		#r"\'[\w?~!\#$%^&*_+{}|=:\"<>\|,./\[\]\;\-]+\'"
 		#EC 
-		r"\'[\w?~!#$%^&*_+{}\=:<>\|,./\[\]\;\-\|\"\|\']+\'"
+		r"\'[\w?~!#$%^&*_+{}\=:<>\|,./\[\]\;\- \| \" \| \']*\'"
 
 		#Casts 't' as a string and stores it in 'currentQuotedString'
 		currentQuotedString = str(t)
@@ -260,7 +260,7 @@ myPars = ClifParser()
 
 parser = myPars.parser
 
-myFile = open("a3-valid-clif2-v3.txt",'r')
+myFile = open("a3-valid-bonus-v4.txt",'r')
 
 lineCount = 0
 for line in myFile:
