@@ -256,33 +256,46 @@ class ClifParser(object):
 		self.parser.parse(input_string)
 
 def main():
-	myPars = ClifParser()
 
 	takeIn = argparse.ArgumentParser(
 		description="my arg parser"
 	)
 
-	takeIn.add_argument('txtName', help="Text File Name")
-	takeIn.add_argument('parseOrLex', help="Parse or Lex")
+	takeIn.add_argument('txtName', help="Text File Name", type=str)
+	takeIn.add_argument('parseOrLex', help="Parse or Lex", type=int)
 
 	args = takeIn.parse_args()
-	print(str(args[0]))
+
+	print(args.parseOrLex)
 
 
-	parser = myPars.parser
+	if (args.parseOrLex):
+		myPars = ClifParser()
+		parser = myPars.parser
 
-	myFile = open("a3-valid-clif2-v3.txt",'r')
+		myFile = open(args.txtName,'r')
 
-	lineCount = 0
-	for line in myFile:
-		parser.parse(line)
-		print(ClifParser.sentenceType + line[:-1]+": ops="+str(ClifLexer.ops_count)+", names="+str(ClifLexer.names_count)+"\n")
-		ClifLexer.ops_count=0
-		ClifLexer.names_count=0
-		pastQuotedStrings.clear()
-		ClifParser.sentenceType = ""
-		lineCount += 1
+		lineCount = 0
+		for line in myFile:
+			parser.parse(line)
+			print(ClifParser.sentenceType + line[:-1]+": ops="+str(ClifLexer.ops_count)+", names="+str(ClifLexer.names_count)+"\n")
+			ClifLexer.ops_count=0
+			ClifLexer.names_count=0
+			pastQuotedStrings.clear()
+			ClifParser.sentenceType = ""
+			lineCount += 1
 
-	print(str(lineCount)+ " sentences")
+		print(str(lineCount)+ " sentences")
+
+	elif (not(args.parseOrLex)):
+
+		myFile = open(args.txtName,'r')
+
+		lex = ClifLexer()
+		for line in myFile:
+			print('Lexing '+line)
+			lex.lex(line)
+
+
 
 main()
