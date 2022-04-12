@@ -1,17 +1,6 @@
 Parsing error;17 current stack: [LexToken(OPEN,'(',1,0), LexToken(OR,'or',1,1), sentence, LexToken(OPEN,'(',1,10), LexToken(QUOTEDSTRING,"'not'",1,11)]
 Lexing error: Unknown character "'" at line 1
 Lexing error: Unknown character "'" at line 1
-Traceback (most recent call last):
-  File "c:/Users/Nick/Downloads/New folder/a3-lexer-provided.py", line 309, in <module>
-    main()
-  File "c:/Users/Nick/Downloads/New folder/a3-lexer-provided.py", line 285, in main
-    parser.parse(line)
-  File "C:\Users\Nick\AppData\Local\Programs\Python\Python38-32\lib\site-packages\ply\yacc.py", line 333, in parse
-    return self.parseopt_notrack(input, lexer, debug, tracking, tokenfunc)
-  File "C:\Users\Nick\AppData\Local\Programs\Python\Python38-32\lib\site-packages\ply\yacc.py", line 1201, in parseopt_notrack
-    tok = call_errorfunc(self.errorfunc, errtoken, self)
-  File "C:\Users\Nick\AppData\Local\Programs\Python\Python38-32\lib\site-packages\ply\yacc.py", line 192, in call_errorfunc
-    r = errorfunc(token)
-  File "c:/Users/Nick/Downloads/New folder/a3-lexer-provided.py", line 241, in p_error
-    raise TypeError("Unexpectedly reached end of file (EOF)")
-TypeError: Unexpectedly reached end of file (EOF)
+Parsing error;6 current stack: [LexToken(OPEN,'(',1,0), LexToken(QUOTEDSTRING,"'if'",1,1)]
+Parsing error;38 current stack: [starter]
+Parsing error;11 current stack: [LexToken(OPEN,'(',1,0), LexToken(OR,'or',1,1), LexToken(OPEN,'(',1,4), LexToken(QUOTEDSTRING,"'not'",1,5)]
