@@ -1,0 +1,7 @@
+Boolean: (if (if (if (if ('Why')('Yes'))('No'))('Yes')) (not ('when'))): ops=1, names=4
+Boolean: (iff('maybe') (not ('no'))): ops=1, names=2
+Boolean: (not(3 1 2 3)): ops=1, names=0
+Boolean: (not (if (not ( 'd:d:d:d' )) ('1'))): ops=2, names=2
+Atomic: ( 'f' ): ops=0, names=1
+Atomic: (1: ops=0, names=0
+6 sentences
