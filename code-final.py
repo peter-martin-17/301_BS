@@ -254,6 +254,10 @@ class ClifParser(object):
 		#parser = yacc.yacc(module=self)
 	
 		self.parser.parse(input_string)
+def boolean_string(s):
+    if s not in {'False', 'True'}:
+        raise ValueError('Not a valid boolean string')
+    return s == 'True'
 
 def main():
 
@@ -262,7 +266,7 @@ def main():
 	)
 
 	takeIn.add_argument('txtName', help="Text File Name", type=str)
-	takeIn.add_argument('parseOrLex', help="Parse or Lex", type=bool)
+	takeIn.add_argument('parseOrLex',default=True, help="Parse or Lex", type=boolean_string)
 
 	args = takeIn.parse_args()
 
@@ -270,7 +274,7 @@ def main():
 
 	myFile = open(args.txtName,'r')
 	newFile= open("newfile.txt", 'w')
-	
+
 	if (args.parseOrLex):
 		myPars = ClifParser()
 		parser = myPars.parser
