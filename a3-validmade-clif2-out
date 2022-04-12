@@ -1,0 +1,7 @@
+Boolean: (or ('1') (not ('0'))): ops=2, names=2
+Boolean: (not ('big word')): ops=1, names=0
+Atomic: ('3123123123'): ops=0, names=1
+Boolean: (iff (1) (1)): ops=0, names=0
+Boolean: (if ('no') ('yes')): ops=0, names=2
+Boolean: (or (not ('idk'))): ops=2, names=1
+6 sentences
