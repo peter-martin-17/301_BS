@@ -1,0 +1,6 @@
+Parsing error;17 current stack: [LexToken(OPEN,'(',1,0), LexToken(OR,'or',1,1), sentence, LexToken(OPEN,'(',1,10), LexToken(QUOTEDSTRING,"'not'",1,11)]
+Lexing error: Unknown character "'" at line 1
+Lexing error: Unknown character "'" at line 1
+Parsing error;6 current stack: [LexToken(OPEN,'(',1,0), LexToken(QUOTEDSTRING,"'if'",1,1)]
+Parsing error;38 current stack: [starter]
+Parsing error;11 current stack: [LexToken(OPEN,'(',1,0), LexToken(OR,'or',1,1), LexToken(OPEN,'(',1,4), LexToken(QUOTEDSTRING,"'not'",1,5)]
