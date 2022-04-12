@@ -1,0 +1,6 @@
+Parsing error;38 current stack: [LexToken(OPEN,'(',1,0), LexToken(IF,'if',1,1), LexToken(OPEN,'(',1,4), LexToken(IF,'if',1,5), sentence]
+Parsing error;54 current stack: [starter]
+Parsing error;25 current stack: [LexToken(OPEN,'(',1,0), LexToken(NOT,'not',1,1), sentence]
+Parsing error;0 current stack: []
+Parsing error;0 current stack: []
+6 sentences
