@@ -5,6 +5,7 @@ import argparse
 
 #global variable that stores every distinct quoted string each line of the file
 pastQuotedStrings = list()
+newFile= open("given_parser_output.txt", 'a')
 
 class ClifLexer():
 	ops_count=0
@@ -52,6 +53,7 @@ class ClifLexer():
 
 	def t_error(self,t):
 		print("Lexing error: Unknown character \"{}\" at line {}".format(t.value[0], t.lexer.lineno))
+		newFile.write("Lexing error: Unknown character \"{}\" at line {}".format(t.value[0], t.lexer.lineno))
 		t.lexer.skip(1)
 
 	# token specification as a string (no regular expression)
@@ -160,7 +162,7 @@ class ClifLexer():
 			tok = self.lexer.token()
 			if not tok:
 				break
-			print(tok)
+			newFile.write(str(tok) + '\n')
 
 class ClifParser(object):
 
@@ -247,6 +249,7 @@ class ClifParser(object):
 		stack = [symbol for symbol in self.parser.symstack][1:]
 
 		print("Parsing error;" + str(error_pos) + " current stack: " + str(stack))
+		newFile.write("Parsing error;" + str(error_pos) + " current stack: " + str(stack) + '\n')
 		
 
 	def parse(self, input_string):
@@ -273,7 +276,7 @@ def main():
 	print(args.parseOrLex)
 
 	myFile = open(args.txtName,'r')
-	newFile= open("newfile.txt", 'w')
+	newFile.write(args.txtName + '\n')
 
 	if (args.parseOrLex):
 		myPars = ClifParser()
@@ -283,7 +286,7 @@ def main():
 		lineCount = 0
 		for line in myFile:
 			parser.parse(line)
-			#print(ClifParser.sentenceType + line[:-1]+": ops="+str(ClifLexer.ops_count)+", names="+str(ClifLexer.names_count)+"\n")
+			print(ClifParser.sentenceType + line[:-1]+": ops="+str(ClifLexer.ops_count)+", names="+str(ClifLexer.names_count)+"\n")
 			newFile.write(ClifParser.sentenceType + line[:-1]+": ops="+str(ClifLexer.ops_count)+", names="+str(ClifLexer.names_count)+"\n")
 			ClifLexer.ops_count=0
 			ClifLexer.names_count=0
@@ -292,12 +295,9 @@ def main():
 			lineCount += 1
 
 		print(str(lineCount)+ " sentences")
-		newFile.write(str(lineCount)+ " sentences")
+		newFile.write(str(lineCount)+ " sentences\n")
 
 	elif (not(args.parseOrLex)):
-
-
-
 		lex = ClifLexer()
 		for line in myFile:
 			print('Lexing '+line)
